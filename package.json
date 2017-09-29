@@ -1,0 +1,25 @@
+{
+  "name": "diffdragon",
+  "version": "1.0.0",
+  "description": "League of Legend's DDragon, diffed.",
+  "main": "dist/app.js",
+  "repository": {
+    "url": "git@github.com:Querijn/BottyMcBotface.git",
+    "type": "git"
+  },
+  "scripts": {
+    "start": "tsc -p . && node ./dist/app.js"
+  },
+  "author": "Querijn Heijmans <querijn@irule.at>",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^1.7.2",
+    "fs-extra": "^4.0.2",
+    "node-tar.gz": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.22",
+    "@types/node-fetch": "^1.6.7",
+    "typescript": "^2.4.2"
+  }
+}

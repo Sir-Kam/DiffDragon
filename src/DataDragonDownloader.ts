@@ -13,23 +13,34 @@ export default class DataDragonDownloader {
         this.downloadLocation = downloadLocation + (hasTrailingSeparator == false ? '/' : '');
     }
 
-    public download(version: DataDragonVersion): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
+    public download(version: DataDragonVersion): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
             let destination = `dragontail-${version.major}.${version.minor}.${version.patch}`;
             let downloadUrl = `http://ddragon.leagueoflegends.com/cdn/${destination}.tgz`;
-    
-            let file = targz().createWriteStream(this.downloadLocation + destination + "/");
-        
-            let request = http.get(downloadUrl, function(response: any) {
-                response.pipe(file);
-                file.on('finish', () => {
-                    file.close(resolve(true));
+
+            let destinationFolder = this.downloadLocation + destination + "/";
+            if (fs.existsSync(destinationFolder)) {
+                console.log(`Folder '${destinationFolder}' exists, skipping..`);
+                resolve(destinationFolder);
+            }
+
+            try {
+                let file = targz().createWriteStream(destinationFolder);
+            
+                let request = http.get(downloadUrl, function(response: any) {
+                    response.pipe(file);
+                    file.on('finish', () => {
+                        file.close(resolve(destinationFolder));
+                    });
+                })
+                .on('error', (err: any) => {
+                    fs.unlink(destination); 
+                    reject("Failed to download file");
                 });
-            })
-            .on('error', (err: any) => {
-                fs.unlink(destination); 
-                reject("Failed to download file");
-            });
+            }
+            catch(e) {
+                reject(e);
+            }
         });
     }
 };

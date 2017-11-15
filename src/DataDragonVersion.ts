@@ -66,7 +66,7 @@ export default class DataDragonVersion {
         return new Promise<DataDragonVersion[]>(async(resolve, reject) => {
             let ddragonVersionLog = "https://ddragon.leagueoflegends.com/api/versions.json";
             let versionArray: DataDragonVersion[] = [];
-            let minVersion = new DataDragonVersion(3, 6, 14);
+            let minVersion = new DataDragonVersion(4, 0, 0);
     
             let response = await fetch(ddragonVersionLog, {
                 method: "GET",
